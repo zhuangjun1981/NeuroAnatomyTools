@@ -30,3 +30,23 @@ def resize_z_cv2(img, new_z, **kwargs):
             **kwargs)
 
     return img2.astype(img.dtype)
+
+
+def equalize_hist_z_cv2(img):
+    """
+    use open cv to equalize histogram of each z plane
+    input should be np.uint8
+
+    :param img: 3d array, shape = (x, y, z)
+    :return: 3d array
+    """
+
+    if len(img.shape) != 3:
+        raise ValueError('input image file should be 3d.')
+
+    img2 = np.empty(img.shape, dtype=img.dtype)
+
+    for zi in range(img.shape[2]):
+        img2[:, :, zi] = cv2.equalizeHist(img[:, :, zi])
+
+    return img2
